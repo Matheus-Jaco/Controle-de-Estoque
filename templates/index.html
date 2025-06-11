@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Loja de Bicicletas</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Loja de Bicicletas</h1>
+
+    <h2>Adicionar Produto</h2>
+    <form method="POST" action="/adicionar">
+        <input type="text" name="nome" placeholder="Nome do produto" required>
+        <input type="number" step="0.01" name="preco" placeholder="Preço (R$)" required>
+        <input type="number" name="quantidade" placeholder="Quantidade" required>
+        <button type="submit">Adicionar</button>
+    </form>
+
+    <h2>Lista de Produtos</h2>
+    {% if produtos %}
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>Preço (R$)</th>
+                    <th>Quantidade</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for produto in produtos %}
+                <tr>
+                    <td>{{ produto[0] }}</td>
+                    <td>{{ produto[1] }}</td>
+                    <td>{{ "%.2f"|format(produto[2]) }}</td>
+                    <td>{{ produto[3] }}</td>
+                    <td>
+                        <form method="POST" action="/excluir/{{ produto[0] }}" style="display:inline;">
+                            <button type="submit" onclick="return confirm('Deseja excluir este produto?')">Excluir</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>Nenhum produto cadastrado.</p>
+    {% endif %}
+</body>
+</html>
