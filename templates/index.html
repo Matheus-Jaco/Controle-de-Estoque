@@ -2,11 +2,17 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>Loja de Bicicletas</title>
+    <title>Controle de Estoque</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <h1>Loja de Bicicletas</h1>
+    <h1>Controle de Estoque</h1>
+
+   <form method="GET" action="/pesquisar" style="margin-bottom: 20px;">
+        <input type="text" name="termo" placeholder="Pesquisar produto" value="{{ termo or '' }}" required>
+        <button type="submit">Buscar</button>
+        <a href="/" class="botao-limpar">Limpar</a>
+    </form>
 
     <h2>Adicionar Produto</h2>
     <form method="POST" action="/adicionar">
@@ -31,13 +37,24 @@
             <tbody>
                 {% for produto in produtos %}
                 <tr>
-                    <td>{{ produto[0] }}</td>
-                    <td>{{ produto[1] }}</td>
-                    <td>{{ "%.2f"|format(produto[2]) }}</td>
-                    <td>{{ produto[3] }}</td>
+                    <td>{{produto[0]}}</td>
+                    <td>{{produto[1]}}</td>
+                    <td>{{"%.2f"|format(produto[2])}}</td>
+                    <td>{{produto[3]}}</td>
                     <td>
                         <form method="POST" action="/excluir/{{ produto[0] }}" style="display:inline;">
-                            <button type="submit" onclick="return confirm('Deseja excluir este produto?')">Excluir</button>
+                            <button type="submit" onclick="return confirm('Deseja excluir este produto?')" style="background-color:red; color:white;">
+                                Excluir
+                            </button>
+                        </form>
+
+                        <form action="/baixar/{{ produto[0] }}" method="post" style="display:inline;">
+                            <input type="number" name="quantidade_baixa" min="1" max="{{ produto[3] }}" required style="width: 100px;">
+                            <button type="submit" style="background-color: green; color:white;">Dar Baixa</button>
+                        </form>
+                        <form action="/repor/{{ produto[0] }}" method="post" style="display: inline;">
+                            <input type="number" id="quantidade_repor" name="quantidade_repor" min="1" max="{{ produto[1]}}" required style="width: 100px;">
+                            <button type="submit">Repor Estoque</button>
                         </form>
                     </td>
                 </tr>

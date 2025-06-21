@@ -1,13 +1,13 @@
 from flask import Flask, render_template, request, redirect
-import sqlite3
+import sqlite3 as sql
 import os
 
 app = Flask(__name__)
 
-DB = 'loja_bicicleta.db'
+DB = 'Estoque.db'
 
 def criar_banco():
-    with sqlite3.connect(DB) as conn:
+    with sql.connect(DB) as conn:
         c = conn.cursor()
         c.execute('''CREATE TABLE IF NOT EXISTS produtos (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -19,7 +19,7 @@ def criar_banco():
 @app.route('/')
 def index():
     criar_banco()
-    with sqlite3.connect(DB) as conn:
+    with sql.connect(DB) as conn:
         c = conn.cursor()
         c.execute("SELECT * FROM produtos")
         produtos = c.fetchall()
@@ -30,7 +30,7 @@ def adicionar():
     nome = request.form['nome']
     preco = float(request.form['preco'])
     quantidade = int(request.form['quantidade'])
-    with sqlite3.connect(DB) as conn:
+    with sql.connect(DB) as conn:
         c = conn.cursor()
         c.execute("INSERT INTO produtos (nome, preco, quantidade) VALUES (?, ?, ?)",
                   (nome, preco, quantidade))
@@ -39,11 +39,60 @@ def adicionar():
 
 @app.route('/excluir/<int:id>', methods=['POST'])
 def excluir(id):
-    with sqlite3.connect(DB) as conn:
+    with sql.connect(DB) as conn:
         c = conn.cursor()
         c.execute("DELETE FROM produtos WHERE id = ?", (id,))
         conn.commit()
+    return redirect('/')   
+
+@app.route('/baixar/<int:id>', methods=['POST'])
+def baixar(id):
+    quantidade_baixa = int(request.form['quantidade_baixa'])
+
+    with sql.connect(DB) as conn:
+        c = conn.cursor()
+        c.execute("SELECT quantidade FROM produtos WHERE id = ?",(id,))
+        resultado = c.fetchone()
+
+        if resultado and resultado[0] >= quantidade_baixa:
+            nova_quantidade = resultado[0] - quantidade_baixa
+            c.execute("UPDATE produtos SET quantidade = ? WHERE id = ?", (nova_quantidade, id))
+            conn.commit()
+        
+        else:
+            print("Quantidade insuficiente no estoque")
+
     return redirect('/')
+
+@app.route('/repor/<int:id>', methods=['POST'])
+def repor_estoque(id):
+    quantidade_repor = int(request.form['quantidade_repor'])
+
+    with sql.connect(DB) as conn:
+        c = conn.cursor()
+        c.execute("SELECT quantidade FROM produtos WHERE id = ?", (id,))
+        resultado_repor = c.fetchone()
+
+        if resultado_repor:
+            nova_quantidade = resultado_repor[0] + quantidade_repor
+            c.execute("UPDATE produtos SET quantidade = ? WHERE id = ?", (nova_quantidade, id))
+            conn.commit()
+        else:
+            print('Produto não encontrado.')
+
+    return redirect('/')
+
+@app.route('/pesquisar', methods=['GET'])
+def pesquisar():
+    termo = request.args.get('termo', '').strip()
+
+    criar_banco()
+    with sql.connect(DB) as conn:
+        c = conn.cursor()
+        c.execute("SELECT * FROM produtos WHERE nome LIKE ?", (f'%{termo}%',))
+        produtos = c.fetchall()
+
+    return render_template('index.html', produtos=produtos, termo=termo)
 
 if __name__ == '__main__':
     app.run(debug=True)
