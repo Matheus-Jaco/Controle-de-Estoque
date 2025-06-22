@@ -1,6 +1,7 @@
 ﻿# Controle-de-Estoque
  
 🧾 Descrição Geral
+
 Este é um aplicativo web construído com Flask que permite:
 
 - Visualizar produtos no estoque
@@ -21,32 +22,17 @@ Este é um aplicativo web construído com Flask que permite:
 - Versão recomendada: Python 3.8 ou superior.
 
 ## 2. Flask
-- Microframework web em Python utilizado para construir a aplicação web.
-- Simples, leve e com boa integração com SQLite.
-## Principais módulos do Flask usados:
 - Flask: para criar e configurar a aplicação.
 - render_template: para renderizar os arquivos HTML.
 - request: para capturar dados enviados via formulários (POST/GET).
 - redirect: para redirecionar o usuário após operações.
-- flash (opcional): para exibir mensagens de erro ou sucesso.
 
 ## 3. SQLite3
-- Banco de dados relacional leve e embutido no Python.
-- Utilizado para armazenar os dados dos produtos (nome, preço, quantidade).
-- Ideal para aplicações pequenas e sem necessidade de servidor de banco externo.
-
-## 4. HTML (HyperText Markup Language)
-- Linguagem de marcação utilizada para estruturar a interface do usuário.
-- Os arquivos HTML ficam na pasta templates/ e utilizam Jinja2 (engine de templates do Flask) para renderização dinâmica de dados.
-
-## 5. CSS (Cascading Style Sheets)
-- Utilizado para estilizar os elementos HTML e melhorar a aparência visual do sistema.
-- Pode ser usado de forma interna, externa (via arquivos .css) ou com frameworks como o Bootstrap.
-
-## 6. Bootstrap (opcional)
-- Framework CSS utilizado para criar interfaces responsivas e elegantes rapidamente.
-- Facilita a estilização de botões, tabelas, formulários e mensagens visuais.
-
+- Banco de Dados ultilizado para aplicação
+## 4. HTML
+- Ultilizado para interação entre o flask/Banco de Dados e o visualização do usuário
+## 5. CSS
+- Ultilizado para estilizar o HTML
 ## ▶️ Como executar o projeto
 Instalar as dependências (flask):
 ```
