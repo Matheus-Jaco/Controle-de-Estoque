@@ -40,7 +40,10 @@ pip install flask
 ```
 Verificar se o Python está instalado:
 ```
-python -V ou python --version
+python -V
+```
+```
+python --version
 ```
 Executar a aplicação:
 ```
