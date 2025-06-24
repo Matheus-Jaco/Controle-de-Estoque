@@ -1,6 +1,6 @@
 ﻿# Controle-de-Estoque
  
-🧾 Descrição Geral
+🧾 Descrição Geral:
 
 Este é um aplicativo web construído com Flask que permite:
 
@@ -12,11 +12,11 @@ Este é um aplicativo web construído com Flask que permite:
 
 - Os dados são armazenados localmente usando SQLite.
 
-## 🌐 Demonstração 
+## 🌐 Demonstração:
 
-![Captura de tela 2025-06-21 204521](https://github.com/user-attachments/assets/99ac41fe-eb17-4390-ba33-4c4dd86d0960)
+![Captura de tela 2025-06-24 103457](https://github.com/user-attachments/assets/79ea66a5-e955-470a-a29c-4833784a2789)
 
-## ⚙️ Tecnologias Utilizadas
+## ⚙️ Tecnologias Utilizadas:
 ### 1. Python 3
 - Linguagem principal utilizada para desenvolver o backend.
 - Versão recomendada: Python 3.8 ou superior.
@@ -33,7 +33,7 @@ Este é um aplicativo web construído com Flask que permite:
 - Ultilizado para interação entre o flask/Banco de Dados e o visualização do usuário
 ### 5. CSS
 - Ultilizado para estilizar o HTML
-## ▶️ Como executar o projeto
+## ▶️ Como executar o projeto:
 Instalar as dependências (flask):
 ```
 pip install flask
