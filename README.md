@@ -2,7 +2,7 @@
  
 🧾 Descrição Geral:
 
-Este é um aplicativo web construído com Flask que permite:
+Este é um aplicativo construído com Flask que permite:
 
 - Visualizar produtos no estoque
 
@@ -14,7 +14,8 @@ Este é um aplicativo web construído com Flask que permite:
 
 ## 🌐 Demonstração:
 
-![Captura de tela 2025-06-24 103457](https://github.com/user-attachments/assets/79ea66a5-e955-470a-a29c-4833784a2789)
+<img width="1919" height="1075" alt="Captura de tela 2025-08-24 202512" src="https://github.com/user-attachments/assets/195fd226-3588-4352-b1c4-de544a4ae834" />
+
 
 ## ⚙️ Tecnologias Utilizadas:
 ### 1. Python 3
@@ -54,3 +55,4 @@ Abrir no navegador:
 http://127.0.0.1:5000/
 ```
 Desenvolvido com ❤️ por Matheus-Jaco
+
