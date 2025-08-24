@@ -1,11 +1,12 @@
 from flask import Flask, render_template, request, redirect
 import sqlite3 as sql
-import os
+import threading
+import webview
 
 app = Flask(__name__)
-
 DB = 'Estoque.db'
 
+# ---------- BANCO DE DADOS ----------
 def criar_banco():
     with sql.connect(DB) as conn:
         c = conn.cursor()
@@ -43,31 +44,27 @@ def excluir(id):
         c = conn.cursor()
         c.execute("DELETE FROM produtos WHERE id = ?", (id,))
         conn.commit()
-    return redirect('/')   
+    return redirect('/')
 
 @app.route('/baixar/<int:id>', methods=['POST'])
 def baixar(id):
     quantidade_baixa = int(request.form['quantidade_baixa'])
-
     with sql.connect(DB) as conn:
         c = conn.cursor()
-        c.execute("SELECT quantidade FROM produtos WHERE id = ?",(id,))
+        c.execute("SELECT quantidade FROM produtos WHERE id = ?", (id,))
         resultado = c.fetchone()
 
         if resultado and resultado[0] >= quantidade_baixa:
             nova_quantidade = resultado[0] - quantidade_baixa
             c.execute("UPDATE produtos SET quantidade = ? WHERE id = ?", (nova_quantidade, id))
             conn.commit()
-        
         else:
             print("Quantidade insuficiente no estoque")
-
     return redirect('/')
 
 @app.route('/repor/<int:id>', methods=['POST'])
 def repor_estoque(id):
     quantidade_repor = int(request.form['quantidade_repor'])
-
     with sql.connect(DB) as conn:
         c = conn.cursor()
         c.execute("SELECT quantidade FROM produtos WHERE id = ?", (id,))
@@ -79,20 +76,25 @@ def repor_estoque(id):
             conn.commit()
         else:
             print('Produto não encontrado.')
-
     return redirect('/')
 
 @app.route('/pesquisar', methods=['GET'])
 def pesquisar():
     termo = request.args.get('termo', '').strip()
-
     criar_banco()
     with sql.connect(DB) as conn:
         c = conn.cursor()
         c.execute("SELECT * FROM produtos WHERE nome LIKE ?", (f'%{termo}%',))
         produtos = c.fetchall()
-
     return render_template('index.html', produtos=produtos, termo=termo)
 
+def start_flask():
+    app.run(debug=False, port=5000, use_reloader=False)
+
 if __name__ == '__main__':
-    app.run(debug=True)
+    t = threading.Thread(target=start_flask)
+    t.daemon = True
+    t.start()
+
+    webview.create_window("📦 Sistema de Estoque", "http://127.0.0.1:5000/")
+    webview.start()
