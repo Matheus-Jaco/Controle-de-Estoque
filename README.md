@@ -54,5 +54,5 @@ Abrir no navegador:
 ```
 http://127.0.0.1:5000/
 ```
-Desenvolvido com ❤️ por Matheus-Jaco
+Desenvolvido por Matheus-Jaco
 
