@@ -6,7 +6,6 @@ import webview
 app = Flask(__name__)
 DB = 'Estoque.db'
 
-# ---------- BANCO DE DADOS ----------
 def criar_banco():
     with sql.connect(DB) as conn:
         c = conn.cursor()
@@ -96,5 +95,5 @@ if __name__ == '__main__':
     t.daemon = True
     t.start()
 
-    webview.create_window("📦 Sistema de Estoque", "http://127.0.0.1:5000/")
+    webview.create_window("Sistema de Estoque", "http://127.0.0.1:5000/")
     webview.start()
