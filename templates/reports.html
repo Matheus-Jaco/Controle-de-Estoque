@@ -1,0 +1,120 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="report-actions no-print">
+    <button onclick="window.print()" class="btn primary">
+        <span class="icon-emoji">🖨️</span> Imprimir Relatório
+    </button>
+</div>
+
+<div class="report-sheet">
+    <header class="report-header">
+        <div class="report-brand">
+            <div class="report-logo-circle">PB</div>
+            <div>
+                <h2>Peças Barel</h2>
+                <p>Controle de Estoque & Financeiro</p>
+            </div>
+        </div>
+        <div class="report-meta">
+            <h3>Relatório Consolidado Mensal</h3>
+            <p class="period">{{ current_period }}</p>
+            <span class="timestamp">Gerado em {{ current_time }}</span>
+        </div>
+    </header>
+
+    <div class="report-body-grid">
+        <!-- Card 1: Vendas -->
+        <section class="report-card sales-section">
+            <div class="card-header-accent">
+                <span class="section-icon">📈</span>
+                <h4>Relatório de Vendas</h4>
+            </div>
+            <div class="report-stat-row">
+                <div class="report-stat">
+                    <span>Produtos Vendidos</span>
+                    <strong>{{ summary.sold_count }} Unidades</strong>
+                </div>
+                <div class="report-stat">
+                    <span>Faturamento Total</span>
+                    <strong class="success-text">R$ {{ '%.2f' | format(summary.total_sales) }}</strong>
+                </div>
+            </div>
+            
+            <div class="top-products-container">
+                <h5>Produtos Mais Vendidos</h5>
+                <div class="top-products-list">
+                    {% if summary.top_products %}
+                        {% for item in summary.top_products %}
+                            <div class="top-product-item">
+                                <span class="product-name">{{ item.name }}</span>
+                                <span class="product-qty">{{ item.total }} unidades</span>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <p class="text-muted text-center">Nenhuma venda registrada no período.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </section>
+
+        <!-- Card 2: Reposições -->
+        <section class="report-card restocks-section">
+            <div class="card-header-accent">
+                <span class="section-icon">🔄</span>
+                <h4>Relatório de Estoque</h4>
+            </div>
+            <div class="report-stat-row">
+                <div class="report-stat">
+                    <span>Reposições Registradas</span>
+                    <strong>{{ summary.repurchases }} Reposições</strong>
+                </div>
+                <div class="report-stat">
+                    <span>Operador Responsável</span>
+                    <strong>Administrador</strong>
+                </div>
+            </div>
+            <div class="stock-info-box">
+                <h5>Informações Adicionais</h5>
+                <p>Todas as reposições e vendas deste período foram devidamente registradas com log de usuário. Para auditoria detalhada de movimentação, favor acessar as logs de sistema na página inicial.</p>
+            </div>
+        </section>
+
+        <!-- Card 3: Financeiro / Anotações -->
+        <section class="report-card finance-section">
+            <div class="card-header-accent">
+                <span class="section-icon">💰</span>
+                <h4>Relatório Financeiro (Anotações)</h4>
+            </div>
+            <div class="report-stat-row vertical">
+                <div class="report-stat-item">
+                    <span>Total Recebido:</span>
+                    <strong class="success-text">R$ {{ '%.2f' | format(summary.total_paid) }}</strong>
+                </div>
+                <div class="report-stat-item">
+                    <span>Total Pendente:</span>
+                    <strong class="warning-text">R$ {{ '%.2f' | format(summary.total_pending) }}</strong>
+                </div>
+            </div>
+
+            {% set total_notes_value = summary.total_paid + summary.total_pending %}
+            {% set paid_percentage = (summary.total_paid / total_notes_value * 100) if total_notes_value > 0 else 0 %}
+            <div class="collection-efficiency">
+                <div class="efficiency-labels">
+                    <h5>Taxa de Recebimento</h5>
+                    <span class="percentage font-bold">{{ '%.1f' | format(paid_percentage) }}%</span>
+                </div>
+                <div class="progress-bar-container">
+                    <div class="progress-bar-fill" style="width: {{ paid_percentage }}%;"></div>
+                </div>
+                <p class="efficiency-details">Do volume total de R$ {{ '%.2f' | format(total_notes_value) }} em anotações registradas, {{ '%.1f' | format(paid_percentage) }}% foi liquidado.</p>
+            </div>
+        </section>
+    </div>
+
+    <footer class="report-footer-signature">
+        <div class="signature-line"></div>
+        <p>Assinatura do Responsável</p>
+        <span>Peças Barel - Controle Interno</span>
+    </footer>
+</div>
+{% endblock %}

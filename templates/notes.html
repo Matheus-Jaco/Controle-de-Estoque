@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="toolbar">
+    <div class="toolbar-group">
+        <a href="{{ url_for('notes.add_note') }}" class="btn secondary">Nova Anotação</a>
+    </div>
+    <form class="search-form" method="get">
+        <input type="text" name="search" value="{{ search }}" placeholder="Pesquisar cliente...">
+        <select name="status">
+            <option value="all" {% if status == 'all' %}selected{% endif %}>Todas</option>
+            <option value="pendente" {% if status == 'pendente' %}selected{% endif %}>Pendente</option>
+            <option value="pago" {% if status == 'pago' %}selected{% endif %}>Pago</option>
+        </select>
+        <button type="submit" class="btn primary">Filtrar</button>
+    </form>
+</div>
+<div class="card table-card">
+    <table>
+        <thead>
+            <tr>
+                <th>Cliente</th>
+                <th>Compra</th>
+                <th>Total</th>
+                <th>Status</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for note in notes %}
+                <tr class="{% if note.status == 'pendente' %}status-pending{% else %}status-paid{% endif %}">
+                    <td>{{ note.client_name }}</td>
+                    <td>{{ note.due_date|format_date }}</td>
+                    <td>R$ {{ '%.2f' | format(note.total_value) }}</td>
+                    <td>{{ 'Pendente' if note.status == 'pendente' else 'Pago' }}</td>
+                    <td class="actions">
+                        <a href="{{ url_for('notes.edit_note', note_id=note.id) }}" class="btn small secondary">Editar</a>
+                        <form method="post" action="{{ url_for('notes.toggle_note', note_id=note.id) }}" class="inline-form">
+                            <button type="submit" class="btn small {% if note.status == 'pendente' %}warning{% else %}success{% endif %}">{% if note.status == 'pendente' %}Pagar{% else %}Reabrir{% endif %}</button>
+                        </form>
+                        <form method="post" action="{{ url_for('notes.delete_note_route', note_id=note.id) }}" class="inline-form" onsubmit="return confirm('Excluir anotação?');">
+                            <button type="submit" class="btn small danger" {% if note.status == 'pendente' %}disabled title="Marque como pago antes de excluir"{% endif %}>Excluir</button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

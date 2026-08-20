@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="dashboard-grid">
+    <article class="card summary-card">
+        <h3>Total Vendido</h3>
+        <strong>R$ {{ '%.2f' | format(report.total_sales) }}</strong>
+    </article>
+    <article class="card summary-card">
+        <h3>Valor total em estoque</h3>
+        <strong>R$ {{ '%.2f' | format(summary.value) }}</strong>
+    </article>
+    <article class="card summary-card">
+        <h3>Total de produtos</h3>
+        <strong>{{ summary.total }}</strong>
+    </article>
+    <article class="card summary-card">
+        <h3>Estoque baixo</h3>
+        <strong>{{ summary.low_stock }}</strong>
+    </article>
+</div>
+<div class="dashboard-grid charts">
+    <section class="card chart-card">
+        <h4>Vendas por mês</h4>
+        <canvas id="salesChart"></canvas>
+    </section>
+    <section class="card chart-card">
+        <h4>Reposições por mês</h4>
+        <canvas id="restockChart"></canvas>
+    </section>
+    {% if report.notes_created > 0 %}
+    <section class="card chart-card full-width">
+        <h4>Situação das anotações</h4>
+        <canvas id="notesChart"></canvas>
+    </section>
+    {% endif %}
+</div>
+<div class="dashboard-grid recent-grid">
+    <section class="card">
+        <h4>Resumo</h4>
+        <div class="summary-list">
+            <div class="summary-item">
+                <div class="item-icon">📈</div>
+                <div class="item-info">
+                    <span>Produtos Vendidos</span>
+                    <strong>{{ report.sold_count }}</strong>
+                </div>
+            </div>
+            <div class="summary-item">
+                <div class="item-icon">🔄</div>
+                <div class="item-info">
+                    <span>Reposições</span>
+                    <strong>{{ report.repurchases }}</strong>
+                </div>
+            </div>
+            <div class="summary-item">
+                <div class="item-icon">⏳</div>
+                <div class="item-info">
+                    <span>A Receber</span>
+                    <strong>R$ {{ '%.2f' | format(report.total_pending) }}</strong>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="card">
+        <h4>Últimas atividades</h4>
+        <div class="log-list">
+            {% for log in report.recent_logs[:8] %}
+                <div class="log-item">
+                    <div class="log-item-header">
+                        {% if log['action'] == 'create_product' %}
+                            <span class="log-action-badge action-create">Novo Produto</span>
+                        {% elif log['action'] == 'update_product' %}
+                            <span class="log-action-badge action-update">Edição</span>
+                        {% elif log['action'] == 'delete_product' %}
+                            <span class="log-action-badge action-delete">Exclusão</span>
+                        {% elif log['action'] == 'create_note' %}
+                            <span class="log-action-badge action-note-create">Nova Anotação</span>
+                        {% elif log['action'] == 'update_note' %}
+                            <span class="log-action-badge action-note-update">Edição Anotação</span>
+                        {% elif log['action'] == 'delete_note' %}
+                            <span class="log-action-badge action-note-delete">Exclusão Anotação</span>
+                        {% elif log['action'] == 'toggle_note_status' %}
+                            <span class="log-action-badge action-note-status">Status Alterado</span>
+                        {% elif log['action'] == 'stock_sale' %}
+                            <span class="log-action-badge action-sale">Venda</span>
+                        {% elif log['action'] == 'stock_restock' %}
+                            <span class="log-action-badge action-restock">Reposição</span>
+                        {% else %}
+                            <span class="log-action-badge action-default">{{ log['action'] }}</span>
+                        {% endif %}
+                        <span class="log-time">{{ log['created_at'][:19].replace('T',' ') if log['created_at'] else '' }}</span>
+                    </div>
+                    <p><strong>{{ log['target'] }}</strong> - {{ log['detail'] }}</p>
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+</div>
+<script>
+const salesData = {{ chart_data.sales | tojson }};
+const restockData = {{ chart_data.restocks | tojson }};
+{% if report.notes_created > 0 %}
+const notesData = {{ chart_data.notes | tojson }};
+{% endif %}
+</script>
+{% endblock %}

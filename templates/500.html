@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="error-page">
+    <h1>500</h1>
+    <p>Erro interno do servidor. Tente novamente mais tarde.</p>
+    <a href="{{ url_for('dashboard.view_dashboard') }}" class="btn primary">Voltar ao painel</a>
+</div>
+{% endblock %}

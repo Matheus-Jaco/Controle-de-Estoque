@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | Peças Barel</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-pb3alT5Sk4Q5VEBh6OWVvVZnY0P9/Q4IkKqN+1Kt+Bwpxbl5r/uj0GqcEJ+4uVBX6V3hZxN0Bz12b0LrZDaPZA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body class="login-page">
+    <div class="login-card">
+        <div class="login-brand">
+            <div class="brand-mark">PB</div>
+            <h1>Peças Barel</h1>
+            <p>Entrar no sistema de estoque</p>
+        </div>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flash-list">
+                    {% for category, message in messages %}
+                        <div class="flash {{ category }}"><span>{{ message }}</span><button type="button" class="flash-close" aria-label="Fechar">&times;</button></div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+        <form method="post" class="form-card" novalidate>
+            <label for="username">Usuário</label>
+            <input type="text" id="username" name="username" placeholder="Digite seu usuário" required>
+            <label for="password">Senha</label>
+            <div class="password-wrapper">
+                <input type="password" id="password" name="password" placeholder="Digite sua senha" required>
+                <button type="button" class="password-toggle" data-target="password" aria-label="Mostrar senha" data-visible="false">
+                    <span class="password-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12Z" />
+                            <path d="M8 12a4 4 0 0 1 8 0" />
+                            <path d="M4 4l16 16" />
+                        </svg>
+                    </span>
+                </button>
+            </div>
+            <button type="submit" class="btn primary">Entrar</button>
+        </form>
+    </div>
+    <script src="/static/js/main.js"></script>
+</body>
+</html>

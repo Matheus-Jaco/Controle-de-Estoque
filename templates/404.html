@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="error-page">
+    <h1>404</h1>
+    <p>Página não encontrada.</p>
+    <a href="{{ url_for('dashboard.view_dashboard') }}" class="btn primary">Voltar ao painel</a>
+</div>
+{% endblock %}

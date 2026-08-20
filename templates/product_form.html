@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="card form-card">
+    <h3>{{ action }} Produto</h3>
+    <form method="post" novalidate>
+        <div class="form-field full-width">
+            <label for="name">Nome do produto</label>
+            <input type="text" id="name" name="name" placeholder="Ex: Pastilha de freio, Filtro de óleo, Velas de ignição" value="{{ product['name'] if product else '' }}" required>
+            <div class="field-help">Informe o nome completo do item, como aparece na loja.</div>
+        </div>
+
+        <div class="form-field">
+            <label for="price">Preço de venda</label>
+            <input type="number" id="price" name="price" placeholder="Ex: 129.90" value="{{ product['price'] if product else '0.00' }}" step="0.01" min="0" data-clear-zero="true" data-clear-zero-default="0.00" required>
+            <div class="field-help">Use ponto como separador decimal e informe o preço final.</div>
+        </div>
+
+        <div class="form-field">
+            <label for="quantity">Quantidade em estoque</label>
+            <input type="number" id="quantity" name="quantity" placeholder="Ex: 10" value="{{ product['quantity'] if product else '0' }}" min="0" data-clear-zero="true" data-clear-zero-default="0" required>
+            <div class="field-help">Quantos itens estão disponíveis neste momento.</div>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn primary">{{ action }}</button>
+            <a href="{{ url_for('products.products_list') }}" class="btn secondary">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Peças Barel - Controle de Estoque</title>
+    <script>
+        (function() {
+            try {
+                if (localStorage.getItem('sidebarCollapsed') === '1') {
+                    document.documentElement.classList.add('sidebar-collapsed');
+                }
+            } catch (error) {
+                console.warn('Não foi possível ler o estado do sidebar:', error);
+            }
+        })();
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-pb3alT5Sk4Q5VEBh6OWVvVZnY0P9/Q4IkKqN+1Kt+Bwpxbl5r/uj0GqcEJ+4uVBX6V3hZxN0Bz12b0LrZDaPZA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="/static/css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="layout">
+        <aside class="sidebar">
+            <div class="brand">
+                <div class="brand-mark">PB</div>
+                <div>
+                    <h1>Peças Barel</h1>
+                    <p>Controle de Estoque</p>
+                </div>
+            </div>
+            <nav class="menu">
+                <a href="{{ url_for('dashboard.view_dashboard') }}" class="menu-link {% if request.path in ['/','/dashboard'] %}active{% endif %}"><span class="icon-emoji">📊</span><span>Inicial</span></a>
+                <a href="{{ url_for('products.products_list') }}" class="menu-link {% if request.path.startswith('/products') %}active{% endif %}"><span class="icon-emoji">📦</span><span>Produtos</span></a>
+                <a href="{{ url_for('notes.notes_list') }}" class="menu-link {% if request.path.startswith('/notes') %}active{% endif %}"><span class="icon-emoji">📝</span><span>Anotações</span></a>
+                <a href="{{ url_for('reports.reports_view') }}" class="menu-link {% if request.path.startswith('/reports') %}active{% endif %}"><span class="icon-emoji">📈</span><span>Relatórios</span></a>
+            </nav>
+        </aside>
+        <main class="main-content">
+            <header class="topbar">
+                <div class="topbar-left">
+                    <button id="toggleSidebar" class="btn secondary sidebar-toggle" type="button" aria-label="Minimizar menu">
+                        <span class="icon-emoji">☰</span>
+                    </button>
+                    <h2>{{ title if title else 'Inicial' }}</h2>
+                </div>
+                <div class="user-dropdown">
+                    <button class="user-box{% if session.get('username') == 'admin' %} admin-user{% endif %}" id="userDropdownBtn" aria-haspopup="true" aria-expanded="false" type="button">
+                        <span class="icon-emoji">👤</span>
+                        <span>{{ session.get('username', 'Usuário') }}</span>
+                        <span class="icon-emoji dropdown-arrow">▼</span>
+                    </button>
+                    <div class="dropdown-menu" id="userDropdownMenu">
+                        <a href="#" class="dropdown-item logout-item" id="changeUserInfoItem">
+                            <span class="icon-emoji">⚙️</span>
+                            <span>Alterar Infirmações</span>
+                        </a>
+                        <a href="{{ url_for('auth.logout') }}" class="dropdown-item logout-item">
+                            <span class="icon-emoji">➡️</span>
+                            <span>Sair</span>
+                        </a>
+                    </div>
+                </div>
+            </header>
+            <section class="content">
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        <div class="flash-list">
+                            {% for category, message in messages %}
+                                <div class="flash {{ category }}"><span>{{ message }}</span><button type="button" class="flash-close" aria-label="Fechar">&times;</button></div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                {% endwith %}
+                {% block content %}{% endblock %}
+            </section>
+        </main>
+    </div>
+    <!-- Modal de Alteração de Informações do Usuário -->
+    <div id="userInfoModal" class="modal confirmation-modal user-info-modal">
+        <div class="modal-content confirmation-content">
+            <span class="close" id="userInfoModalClose">&times;</span>
+            <div class="modal-header">
+                <h3>Alterar informações do usuário</h3>
+            </div>
+            <div class="modal-body">
+                <p>Informe sua senha atual para confirmar a troca de nome de usuário e senha.</p>
+                <form id="userInfoForm" action="{{ url_for('auth.change_user_info') }}" method="post">
+                    <div class="form-grid">
+                        <div class="form-field password-field full-width">
+                            <label for="current_password">Senha atual</label>
+                            <div class="password-wrapper">
+                                <input type="password" id="current_password" name="current_password" autocomplete="current-password" required>
+                                <button type="button" class="password-toggle" data-target="current_password" aria-label="Mostrar senha atual" data-visible="false">
+                                <span class="password-icon" aria-hidden="true">
+                                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12Z" />
+                                        <path d="M8 12a4 4 0 0 1 8 0" />
+                                        <path d="M4 4l16 16" />
+                                    </svg>
+                                </span>
+                            </button>
+                            </div>
+                        </div>
+                        <div class="form-field full-width">
+                            <label for="new_username">Novo nome de usuário</label>
+                            <input type="text" id="new_username" name="new_username" autocomplete="username" required>
+                        </div>
+                        <div class="form-field password-field">
+                            <label for="new_password">Nova senha</label>
+                            <div class="password-wrapper">
+                                <input type="password" id="new_password" name="new_password" autocomplete="new-password" required>
+                                <button type="button" class="password-toggle" data-target="new_password" aria-label="Mostrar nova senha" data-visible="false">
+                                    <span class="password-icon" aria-hidden="true">
+                                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12Z" />
+                                            <path d="M8 12a4 4 0 0 1 8 0" />
+                                            <path d="M4 4l16 16" />
+                                        </svg>
+                                    </span>
+                                </button>
+                            </div>
+                            <p class="field-help">Use no mínimo 8 caracteres, com letras e números.</p>
+                        </div>
+                        <div class="form-field password-field">
+                            <label for="confirm_password">Confirmar nova senha</label>
+                            <div class="password-wrapper">
+                                <input type="password" id="confirm_password" name="confirm_password" autocomplete="new-password" required>
+                                <button type="button" class="password-toggle" data-target="confirm_password" aria-label="Mostrar confirmação da senha" data-visible="false">
+                                    <span class="password-icon" aria-hidden="true">
+                                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12Z" />
+                                            <path d="M8 12a4 4 0 0 1 8 0" />
+                                            <path d="M4 4l16 16" />
+                                        </svg>
+                                    </span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn secondary" id="cancelUserInfoChange">Cancelar</button>
+                        <button type="submit" class="btn primary">Salvar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- Modal de Confirmação -->
+    <div id="confirmationModal" class="modal confirmation-modal">
+        <div class="modal-content confirmation-content">
+            <div class="modal-header">
+                <h3 id="confirmationTitle">Confirmar ação</h3>
+            </div>
+            <div class="modal-body">
+                <p id="confirmationMessage">Tem certeza que deseja continuar?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="confirmationCancel" class="btn secondary">Cancelar</button>
+                <button type="button" id="confirmationConfirm" class="btn danger">Confirmar</button>
+            </div>
+        </div>
+    </div>
+    <script src="/static/js/main.js"></script>
+</body>
+</html>
