@@ -14,6 +14,8 @@ Este é um aplicativo construído com Flask que permite:
 
 ## 🌐 Demonstração:
 
+![Banco de dados do sistema](img/banco.png)
+
 <img width="1919" height="1079" alt="image" src="https://github.com/user-attachments/assets/1b3f0a6c-37e8-4767-bd3d-a457bbeaca95" />
 
 ## ⚙️ Tecnologias Utilizadas:
