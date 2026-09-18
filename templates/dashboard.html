@@ -39,21 +39,21 @@
         <h4>Resumo</h4>
         <div class="summary-list">
             <div class="summary-item">
-                <div class="item-icon">📈</div>
+                <div class="item-icon"><i class="fa-solid fa-chart-line"></i></div>
                 <div class="item-info">
                     <span>Produtos Vendidos</span>
                     <strong>{{ report.sold_count }}</strong>
                 </div>
             </div>
             <div class="summary-item">
-                <div class="item-icon">🔄</div>
+                <div class="item-icon"><i class="fa-solid fa-repeat"></i></div>
                 <div class="item-info">
                     <span>Reposições</span>
                     <strong>{{ report.repurchases }}</strong>
                 </div>
             </div>
             <div class="summary-item">
-                <div class="item-icon">⏳</div>
+                <div class="item-icon"><i class="fa-solid fa-clock"></i></div>
                 <div class="item-info">
                     <span>A Receber</span>
                     <strong>R$ {{ '%.2f' | format(report.total_pending) }}</strong>

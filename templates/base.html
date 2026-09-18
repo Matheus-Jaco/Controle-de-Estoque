@@ -15,7 +15,7 @@
             }
         })();
     </script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-pb3alT5Sk4Q5VEBh6OWVvVZnY0P9/Q4IkKqN+1Kt+Bwpxbl5r/uj0GqcEJ+4uVBX6V3hZxN0Bz12b0LrZDaPZA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="/static/css/style.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
@@ -30,33 +30,33 @@
                 </div>
             </div>
             <nav class="menu">
-                <a href="{{ url_for('dashboard.view_dashboard') }}" class="menu-link {% if request.path in ['/','/dashboard'] %}active{% endif %}"><span class="icon-emoji">📊</span><span>Inicial</span></a>
-                <a href="{{ url_for('products.products_list') }}" class="menu-link {% if request.path.startswith('/products') %}active{% endif %}"><span class="icon-emoji">📦</span><span>Produtos</span></a>
-                <a href="{{ url_for('notes.notes_list') }}" class="menu-link {% if request.path.startswith('/notes') %}active{% endif %}"><span class="icon-emoji">📝</span><span>Anotações</span></a>
-                <a href="{{ url_for('reports.reports_view') }}" class="menu-link {% if request.path.startswith('/reports') %}active{% endif %}"><span class="icon-emoji">📈</span><span>Relatórios</span></a>
+                <a href="{{ url_for('dashboard.view_dashboard') }}" class="menu-link {% if request.path in ['/','/dashboard'] %}active{% endif %}"><span class="icon-emoji"><i class="fa-solid fa-chart-column"></i></span><span>Inicial</span></a>
+                <a href="{{ url_for('products.products_list') }}" class="menu-link {% if request.path.startswith('/products') %}active{% endif %}"><span class="icon-emoji"><i class="fa-solid fa-boxes-stacked"></i></span><span>Produtos</span></a>
+                <a href="{{ url_for('notes.notes_list') }}" class="menu-link {% if request.path.startswith('/notes') %}active{% endif %}"><span class="icon-emoji"><i class="fa-solid fa-note-sticky"></i></span><span>Anotações</span></a>
+                <a href="{{ url_for('reports.reports_view') }}" class="menu-link {% if request.path.startswith('/reports') %}active{% endif %}"><span class="icon-emoji"><i class="fa-solid fa-chart-line"></i></span><span>Relatórios</span></a>
             </nav>
         </aside>
         <main class="main-content">
             <header class="topbar">
                 <div class="topbar-left">
                     <button id="toggleSidebar" class="btn secondary sidebar-toggle" type="button" aria-label="Minimizar menu">
-                        <span class="icon-emoji">☰</span>
+                        <span class="icon-emoji"><i class="fa-solid fa-bars"></i></span>
                     </button>
                     <h2>{{ title if title else 'Inicial' }}</h2>
                 </div>
                 <div class="user-dropdown">
                     <button class="user-box{% if session.get('username') == 'admin' %} admin-user{% endif %}" id="userDropdownBtn" aria-haspopup="true" aria-expanded="false" type="button">
-                        <span class="icon-emoji">👤</span>
+                        <span class="icon-emoji"><i class="fa-solid fa-user"></i></span>
                         <span>{{ session.get('username', 'Usuário') }}</span>
-                        <span class="icon-emoji dropdown-arrow">▼</span>
+                        <span class="icon-emoji dropdown-arrow"><i class="fa-solid fa-chevron-down"></i></span>
                     </button>
                     <div class="dropdown-menu" id="userDropdownMenu">
                         <a href="#" class="dropdown-item logout-item" id="changeUserInfoItem">
-                            <span class="icon-emoji">⚙️</span>
+                            <span class="icon-emoji"><i class="fa-solid fa-gear"></i></span>
                             <span>Alterar Infirmações</span>
                         </a>
                         <a href="{{ url_for('auth.logout') }}" class="dropdown-item logout-item">
-                            <span class="icon-emoji">➡️</span>
+                            <span class="icon-emoji"><i class="fa-solid fa-arrow-right-from-bracket"></i></span>
                             <span>Sair</span>
                         </a>
                     </div>
@@ -67,7 +67,7 @@
                     {% if messages %}
                         <div class="flash-list">
                             {% for category, message in messages %}
-                                <div class="flash {{ category }}"><span>{{ message }}</span><button type="button" class="flash-close" aria-label="Fechar">&times;</button></div>
+                                <div class="flash {{ category }}"><span>{{ message }}</span><button type="button" class="flash-close" aria-label="Fechar"><i class="fa-solid fa-xmark"></i></button></div>
                             {% endfor %}
                         </div>
                     {% endif %}
@@ -79,7 +79,7 @@
     <!-- Modal de Alteração de Informações do Usuário -->
     <div id="userInfoModal" class="modal confirmation-modal user-info-modal">
         <div class="modal-content confirmation-content">
-            <span class="close" id="userInfoModalClose">&times;</span>
+            <span class="close" id="userInfoModalClose"><i class="fa-solid fa-xmark"></i></span>
             <div class="modal-header">
                 <h3>Alterar informações do usuário</h3>
             </div>

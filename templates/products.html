@@ -15,21 +15,21 @@
 </div>
 <div class="products-stats-grid">
     <div class="stat-mini-card total">
-        <div class="stat-icon">📦</div>
+        <div class="stat-icon"><i class="fa-solid fa-boxes-stacked"></i></div>
         <div class="stat-info">
             <span>Total Cadastrado</span>
             <strong>{{ products|length }}</strong>
         </div>
     </div>
     <div class="stat-mini-card low">
-        <div class="stat-icon">⚠️</div>
+        <div class="stat-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
         <div class="stat-info">
             <span>Estoque Baixo</span>
             <strong>{{ low_stock|length }}</strong>
         </div>
     </div>
     <div class="stat-mini-card empty">
-        <div class="stat-icon">🚫</div>
+        <div class="stat-icon"><i class="fa-solid fa-circle-xmark"></i></div>
         <div class="stat-info">
             <span>Sem Estoque</span>
             <strong>{{ out_stock|length }}</strong>
@@ -68,7 +68,7 @@
 </div>
 <div id="movementModal" class="modal">
     <div class="modal-content">
-        <span class="close" onclick="closeModal()">&times;</span>
+        <span class="close" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></span>
         <h3>Movimentação de estoque</h3>
         <form id="movementForm" method="post">
             <label for="movement_type">Tipo</label>

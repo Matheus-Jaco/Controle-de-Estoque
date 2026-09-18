@@ -238,6 +238,10 @@ a, button {
     opacity: 0.8;
 }
 
+.dropdown-arrow i {
+    font-size: inherit;
+}
+
 .user-box[aria-expanded="true"] .dropdown-arrow {
     transform: rotate(180deg);
 }
@@ -560,7 +564,11 @@ img, .responsive-img { max-width: 100%; height: auto; display: block; }
     height: 1.3em;
     font-size: 1.1rem;
     line-height: 1;
-    font-family: 'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji', 'Segoe UI Symbol', sans-serif;
+}
+
+.icon-emoji i {
+    font-size: inherit;
+    line-height: 1;
 }
 
 .btn.small {
@@ -779,12 +787,17 @@ img, .responsive-img { max-width: 100%; height: auto; display: block; }
 }
 
 .modal-header h3::before {
-    content: '⚠️';
-    font-size: 1.4rem;
+    content: '\f071';
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+    font-size: 1.2rem;
+    line-height: 1;
 }
 
 .user-info-modal .modal-header h3::before {
-    content: '🔐';
+    content: '\f023';
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
 }
 
 .user-info-modal .modal-body p {
@@ -1338,6 +1351,13 @@ input, select, textarea { font-size: 1rem; }
 
 .card-header-accent .section-icon {
     font-size: 1.4rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.card-header-accent .section-icon i {
+    font-size: inherit;
 }
 
 .card-header-accent h4 {

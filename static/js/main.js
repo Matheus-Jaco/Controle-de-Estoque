@@ -174,7 +174,7 @@ function showFlashMessage(category, message) {
 
     const flash = document.createElement('div');
     flash.className = `flash ${category}`;
-    flash.innerHTML = `<span>${message}</span><button type="button" class="flash-close" aria-label="Fechar">&times;</button>`;
+    flash.innerHTML = `<span>${message}</span><button type="button" class="flash-close" aria-label="Fechar"><i class="fa-solid fa-xmark"></i></button>`;
     flashList.appendChild(flash);
 
     const closeButton = flash.querySelector('.flash-close');

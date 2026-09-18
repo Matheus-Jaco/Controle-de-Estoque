@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login | Peças Barel</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-pb3alT5Sk4Q5VEBh6OWVvVZnY0P9/Q4IkKqN+1Kt+Bwpxbl5r/uj0GqcEJ+4uVBX6V3hZxN0Bz12b0LrZDaPZA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="/static/css/style.css">
 </head>
 <body class="login-page">
@@ -18,7 +18,7 @@
             {% if messages %}
                 <div class="flash-list">
                     {% for category, message in messages %}
-                        <div class="flash {{ category }}"><span>{{ message }}</span><button type="button" class="flash-close" aria-label="Fechar">&times;</button></div>
+                        <div class="flash {{ category }}"><span>{{ message }}</span><button type="button" class="flash-close" aria-label="Fechar"><i class="fa-solid fa-xmark"></i></button></div>
                     {% endfor %}
                 </div>
             {% endif %}
@@ -39,7 +39,7 @@
                     </span>
                 </button>
             </div>
-            <button type="submit" class="btn primary">Entrar</button>
+            <button type="submit" class="btn primary"><i class="fa-solid fa-right-to-bracket"></i> Entrar</button>
         </form>
     </div>
     <script src="/static/js/main.js"></script>

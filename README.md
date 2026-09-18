@@ -1,3 +1,4 @@
+﻿<<<<<<< HEAD
 ﻿# Controle-de-Estoque
  
 🧾 Descrição Geral:
@@ -18,6 +19,53 @@ Este é um aplicativo construído com Flask que permite:
 
 ## ⚙️ Tecnologias Utilizadas:
 ### 1. Python 3
+- Versão recomendada: Python 3.8 ou superior.
+### 2. Flask
+- render_template: para renderizar os arquivos HTML.
+- redirect: para redirecionar o usuário após operações.
+
+### 3. SQLite3
+- Banco de Dados ultilizado para aplicação
+### 4. HTML
+- Ultilizado para interação entre o flask/Banco de Dados e o visualização do usuário
+### 5. CSS
+- Ultilizado para estilizar o HTML
+## ▶️ Como executar o projeto:
+pip install flask
+```
+```
+python --version
+Executar a aplicação:
+python app.py
+Abrir no navegador:
+```
+http://127.0.0.1:5000/
+```
+Desenvolvido por Matheus-Jaco
+
+=======
+# Controle-de-Estoque
+
+Descrição Geral:
+
+Este é um aplicativo construído com Flask que permite:
+
+- Visualizar produtos no estoque
+
+- Adicionar, remover, baixar e repor produtos
+
+- Pesquisar produtos por nome
+
+- Os dados são armazenados localmente usando SQLite.
+
+## Demonstração:
+
+![Banco de dados do sistema](img/banco.png)
+
+<img width="1919" height="1079" alt="image" src="https://github.com/user-attachments/assets/1b3f0a6c-37e8-4767-bd3d-a457bbeaca95" />
+
+## Tecnologias Utilizadas:
+### 1. Python 3
 - Linguagem principal utilizada para desenvolver o backend.
 - Versão recomendada: Python 3.8 ou superior.
 
@@ -33,7 +81,7 @@ Este é um aplicativo construído com Flask que permite:
 - Ultilizado para interação entre o flask/Banco de Dados e o visualização do usuário
 ### 5. CSS
 - Ultilizado para estilizar o HTML
-## ▶️ Como executar o projeto:
+## Como executar o projeto:
 Instalar as dependências (flask):
 ```
 pip install flask
@@ -55,3 +103,4 @@ http://127.0.0.1:5000/
 ```
 Desenvolvido por Matheus-Jaco
 
+>>>>>>> 868a376 (Substitui emojis por icones profissionais)
