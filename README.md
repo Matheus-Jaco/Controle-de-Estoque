@@ -15,7 +15,7 @@ Este é um aplicativo construído com Flask que permite:
 
 ## 🌐 Demonstração:
 
-<img alt="Captura de tela 2026-11-26 194009" src="https://github.com/user-attachments/assets/49044c4d-19fa-410e-b76a-b179003f06a8" />
+<img width="1917" height="1077" alt="loja_peças" src="https://github.com/user-attachments/assets/ee233f1f-b002-42cb-b266-a377f80edad8" />
 
 ## ⚙️ Tecnologias Utilizadas:
 ### 1. Python 3
